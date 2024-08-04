@@ -22,9 +22,11 @@ const LoginForm = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={() => store.login(email, password)}>Login</button>
-      <button onClick={() => store.registration(email, password)}>Register</button>
+      <button onClick={() => store.registration(email, password)}>
+        Register
+      </button>
     </div>
-  )
+  );
 };
 
 export default LoginForm;
