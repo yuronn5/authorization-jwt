@@ -7,6 +7,10 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
+
 const start = async () => {
   try {
     await mongoose.connect(process.env.DB_URL, {
@@ -15,8 +19,8 @@ const start = async () => {
     });
     console.log("MongoDB connected");
     app.listen(PORT, () => {
-        console.log(`Server started on port ${PORT}`);
-    })
+      console.log(`Server started on port ${PORT}`);
+    });
   } catch (err) {
     console.log(err);
   }
