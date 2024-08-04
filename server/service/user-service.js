@@ -20,6 +20,8 @@ class UserService {
       password: hashPassword,
       activationLink,
     }); // create user in db
+
+    // commento to work without working email
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`); // send email for activation
 
     const userDto = new UserDto(user); // id, email, isActivated
