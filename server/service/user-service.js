@@ -19,13 +19,22 @@ class UserService {
       password: hashPassword,
       activationLink,
     }); // create user in db
-    await mailService.sendActivationMail(email, activationLink); // send email for activation
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`); // send email for activation
 
     const userDto = new UserDto(user); // id, email, isActivated
     const tokens = tokenService.generateTokens({ ...userDto }); // accessToken, refreshToken
     await tokenService.saveToken(userDto.id, tokens.refreshToken); // save refreshToken in db
 
     return { ...tokens, user: userDto }; 
+  }
+
+  async activate(activationLink) {
+    const user = await UserModel.findOne({ activationLink });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    user.isActivated = true;
+    await user.save();
   }
 }
 
